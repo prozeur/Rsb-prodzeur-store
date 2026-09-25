@@ -3,1697 +3,673 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>RSB Prodzeur | Beatmaker Lubumbashi</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- Flutterwave Checkout -->
-<script src="https://checkout.flutterwave.com/v3.js"></script>
-
 <style>
 :root {
-  --bg:#0A0A0A;
-  --card:#121212;
-  --accent:#7C3AED;
-  --text:#fff;
-  --muted:#A1A1AA;
-  --border:#27272A;
+  --bg: #0A0A0C;
+  --card: #121216;
+  --card-hover: #181820;
+  --accent: #7C3AED;
+  --accent-hover: #6D28D9;
+  --success: #25D366;
+  --danger: #EF4444;
+  --text: #F4F4F5;
+  --muted: #A1A1AA;
+  --border: #27272A;
 }
 
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Inter,sans-serif;
-}
-
-body {
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-}
-
-a {
-  text-decoration:none;
-  color:inherit;
-}
-
-button {
-  font-family:inherit;
-}
-
-.container {
-  max-width:1200px;
-  margin:0 auto;
-  padding:0 20px;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: var(--bg); color: var(--text); overflow-x: hidden; padding-bottom: 90px; }
+a { text-decoration: none; color: inherit; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
 /* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(124,58,237,.6); } 70% { box-shadow: 0 0 0 14px rgba(124,58,237,0); } 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-@keyframes fadeUp {
-  from {
-    opacity:0;
-    transform:translateY(30px);
-  }
-  to {
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% { box-shadow:0 0 0 0 rgba(124,58,237,.7); }
-  70% { box-shadow:0 0 0 15px rgba(124,58,237,0); }
-  100% { box-shadow:0 0 0 0 rgba(124,58,237,0); }
-}
-
-@keyframes float {
-  0%,100% { transform:translateY(0); }
-  50% { transform:translateY(-6px); }
-}
-
-.animate { animation:fadeUp .8s ease forwards; }
-.delay1 { animation-delay:.1s; }
-.delay2 { animation-delay:.2s; }
+.animate { animation: fadeUp .6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.delay1 { animation-delay: .1s; }
+.delay2 { animation-delay: .2s; }
 
 /* HEADER */
-
-header {
-  position:fixed;
-  top:0;
-  width:100%;
-  background:rgba(10,10,10,.85);
-  backdrop-filter:blur(12px);
-  z-index:1000;
-  border-bottom:1px solid var(--border);
-}
-
-.nav {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  height:70px;
-}
-
-.logo {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-weight:800;
-  font-size:1.4rem;
-}
-
-.logo-img {
-  width:44px;
-  height:44px;
-  border-radius:12px;
-  object-fit:cover;
-  background:#000;
-  border:1px solid var(--border);
-  animation:float 3s ease-in-out infinite;
-}
-
-.logo span { color:var(--accent); }
-
-nav ul {
-  display:flex;
-  list-style:none;
-  gap:25px;
-}
-
-.btn-admin {
-  border:1px solid var(--border);
-  background:transparent;
-  color:var(--muted);
-  padding:8px 16px;
-  border-radius:20px;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.btn-admin:hover {
-  border-color:var(--accent);
-  color:#fff;
-  transform:scale(1.05);
-}
+header { position: fixed; top: 0; width: 100%; background: rgba(10,10,12,.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 1000; border-bottom: 1px solid var(--border); }
+.nav { display: flex; justify-content: space-between; align-items: center; height: 75px; }
+.logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.5px; }
+.logo-img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; background: #18181B; border: 1px solid var(--border); }
+.logo span { color: var(--accent); }
+nav ul { display: flex; list-style: none; gap: 30px; font-size: 0.95rem; font-weight: 500; }
+nav ul a { color: var(--muted); transition: .2s; }
+nav ul a:hover { color: var(--text); }
+.btn-admin { border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--muted); padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: .2s; font-weight: 500; font-size: 0.85rem; }
+.btn-admin:hover { border-color: var(--accent); color: var(--text); background: rgba(124,58,237,0.1); }
 
 /* HERO */
-
-.hero {
-  height:90vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding-top:70px;
-  background:radial-gradient(
-    circle at center,
-    rgba(124,58,237,.2) 0%,
-    #0A0A0A 70%
-  );
-}
-
-.hero h1 {
-  font-size:3.2rem;
-  font-weight:800;
-  line-height:1.1;
-  margin-bottom:20px;
-}
-
-.hero p {
-  color:var(--muted);
-  max-width:600px;
-  margin:0 auto 30px;
-  font-size:1.1rem;
-}
-
-.hero-btns {
-  display:flex;
-  gap:15px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-.btn-pr {
-  background:var(--accent);
-  color:#fff;
-  padding:15px 34px;
-  border-radius:30px;
-  font-weight:700;
-  border:none;
-  cursor:pointer;
-  box-shadow:0 8px 30px rgba(124,58,237,.4);
-  transition:.3s;
-  animation:pulse 2s infinite;
-}
-
-.btn-pr:hover { transform:translateY(-3px) scale(1.03); }
-
-.btn-yt {
-  background:#FF0000;
-  color:#fff;
-  padding:15px 34px;
-  border-radius:30px;
-  font-weight:700;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  transition:.3s;
-}
-
-.btn-yt:hover {
-  transform:translateY(-3px);
-  background:#cc0000;
-}
+.hero { height: 85vh; min-height: 550px; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 75px; background: radial-gradient(circle at 50% 30%, rgba(124,58,237,.18) 0%, rgba(10,10,12,1) 70%); }
+.hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.15; margin-bottom: 20px; letter-spacing: -1px; }
+.hero h1 span { background: linear-gradient(135deg, #fff 30%, var(--muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { color: var(--muted); max-width: 620px; margin: 0 auto 35px auto; font-size: 1.15rem; line-height: 1.6; }
+.hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+.btn-pr { background: var(--accent); color: #fff; padding: 14px 32px; border-radius: 30px; font-weight: 600; border: none; cursor: pointer; transition: .3s; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 25px rgba(124,58,237,.35); }
+.btn-pr:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.btn-yt { background: #FF0000; color: #fff; padding: 14px 32px; border-radius: 30px; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; transition: .3s; }
+.btn-yt:hover { background: #d30000; transform: translateY(-2px); }
 
 /* SECTIONS */
+.section { padding: 90px 0; }
+.title-container { text-align: center; margin-bottom: 50px; }
+.title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
+.subtitle { color: var(--muted); font-size: 1rem; margin-top: 8px; }
 
-.section { padding:80px 0; }
+/* BEATS GRID */
+.grid-beats { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; transition: all .3s ease; position: relative; display: flex; flex-direction: column; }
+.card:hover { transform: translateY(-6px); border-color: rgba(124,58,237,0.5); background: var(--card-hover); box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+.cover { position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 14px; }
+.cover img { width: 100%; height: 100%; object-fit: cover; transition: .4s ease; }
+.card:hover .cover img { transform: scale(1.05); }
+.play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; opacity: 0; transition: .2s; cursor: pointer; backdrop-filter: blur(2px); }
+.card:hover .play-overlay, .card.playing .play-overlay { opacity: 1; }
+.play-btn-icon { width: 54px; height: 54px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.3rem; transition: .2s; box-shadow: 0 4px 15px rgba(0,0,0,.4); }
+.play-btn-icon:hover { transform: scale(1.1); }
 
-.title {
-  text-align:center;
-  font-size:2.4rem;
-  font-weight:800;
-  margin-bottom:45px;
-}
-
-/* BEATS */
-
-.grid-beats {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:25px;
-}
-
-.card {
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:15px;
-  transition:.4s;
-  opacity:0;
-  animation:fadeUp .6s ease forwards;
-  position:relative;
-}
-
-.card:hover {
-  transform:translateY(-8px) scale(1.02);
-  border-color:var(--accent);
-  box-shadow:0 10px 40px rgba(124,58,237,.25);
-}
-
-.cover {
-  position:relative;
-  width:100%;
-  aspect-ratio:1/1;
-  border-radius:10px;
-  overflow:hidden;
-  background:#000;
-  margin-bottom:12px;
-}
-
-.cover img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:.5s;
-}
-
-.card:hover .cover img { transform:scale(1.1); }
-
-.play {
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  transition:.3s;
-  cursor:pointer;
-}
-
-.card:hover .play { opacity:1; }
-
-.play i {
-  font-size:3.2rem;
-  color:var(--accent);
-  transform:scale(.8);
-  transition:.3s;
-}
-
-.card:hover .play i { transform:scale(1); }
-
-.progress-bar {
-  position:absolute;
-  bottom:0;
-  left:0;
-  height:4px;
-  background:var(--accent);
-  width:0%;
-  transition:width .1s linear;
-}
-
-.price {
-  color:var(--accent);
-  font-weight:800;
-  font-size:1.1rem;
-}
-
-.btn-buy {
-  background:#25D366;
-  color:#fff;
-  padding:8px 14px;
-  border-radius:8px;
-  font-weight:700;
-  font-size:.85rem;
-  transition:.3s;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-}
-
-.btn-buy:hover { transform:scale(1.05); }
-
-.btn-pay {
-  background:var(--accent);
-  color:#fff;
-  padding:8px 14px;
-  border-radius:8px;
-  font-weight:700;
-  font-size:.85rem;
-  transition:.3s;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  border:none;
-  cursor:pointer;
-}
-
-.btn-pay:hover { transform:scale(1.05); }
-
-.badge {
-  font-size:.7rem;
-  background:rgba(255,255,255,.1);
-  padding:4px 8px;
-  border-radius:20px;
-  color:#FFD700;
-}
-
-/* MEDIA GALERIES (PHOTOS ET VIDÉOS) */
-
-.grid-media {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:20px;
-}
-
-.media-card {
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:12px;
-  overflow:hidden;
-  transition:.3s;
-}
-
-.media-card:hover {
-  border-color:var(--accent);
-  transform:translateY(-5px);
-}
-
-.media-card img, .media-card video, .media-card iframe {
-  width:100%;
-  height:200px;
-  object-fit:cover;
-  border:none;
-}
-
-.media-info {
-  padding:15px;
-}
-
-.media-info h4 {
-  font-size:1rem;
-  margin-bottom:5px;
-}
+.card-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.card-tag { font-size: .72rem; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(255,255,255,.06); padding: 4px 10px; border-radius: 20px; color: var(--muted); display: inline-block; width: fit-content; margin-bottom: 8px; border: 1px solid rgba(255,255,255,.05); }
+.card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-details { color: var(--muted); font-size: .85rem; margin-bottom: 16px; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.05); }
+.price { color: #fff; font-weight: 800; font-size: 1.2rem; }
+.btn-buy { background: var(--success); color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: .85rem; transition: .2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-buy:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
 /* YOUTUBE BOX */
-
-.yt-box {
-  background:var(--card);
-  border:1px solid var(--border);
-  max-width:720px;
-  margin:0 auto;
-  padding:45px;
-  border-radius:18px;
-  text-align:center;
-  transition:.4s;
-}
-
-.yt-box:hover {
-  transform:translateY(-5px);
-  border-color:#FF0000;
-}
+.yt-box { background: linear-gradient(180deg, rgba(255,0,0,0.05) 0%, var(--card) 100%); border: 1px solid var(--border); max-width: 700px; margin: 0 auto; padding: 45px 30px; border-radius: 20px; text-align: center; }
 
 /* PRICING */
-
-.pricing {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-}
-
-.p-card {
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:30px;
-  text-align:center;
-  transition:.3s;
-}
-
-.p-card:hover {
-  transform:translateY(-6px);
-  border-color:var(--accent);
-}
-
-.p-card.feat {
-  border-color:var(--accent);
-  background:linear-gradient(180deg, rgba(124,58,237,.15), var(--card));
-  transform:scale(1.03);
-}
+.pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.p-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 32px 24px; text-align: center; transition: .3s; position: relative; }
+.p-card.feat { border-color: var(--accent); background: linear-gradient(180deg, rgba(124,58,237,.12) 0%, var(--card) 100%); }
+.p-card.feat::before { content: "RECOMMANDÉ"; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; font-size: 0.65rem; font-weight: 800; padding: 4px 12px; border-radius: 12px; letter-spacing: 1px; }
 
 /* PAYMENT */
+.payment { padding: 60px 0; border-top: 1px solid var(--border); }
+.pay-box { max-width: 500px; margin: 0 auto; background: var(--card); border: 1px dashed var(--accent); padding: 30px; border-radius: 18px; text-align: center; }
 
-.payment {
-  padding:60px 0;
-  text-align:center;
-  border-top:1px solid var(--border);
-}
+/* PLAYER FIXED BOTTOM */
+.player-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(18,18,22,0.95); backdrop-filter: blur(16px); border-top: 1px solid var(--border); padding: 12px 24px; z-index: 999; display: flex; align-items: center; justify-content: space-between; transform: translateY(100%); transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1); }
+.player-bar.active { transform: translateY(0); }
+.player-track { display: flex; align-items: center; gap: 15px; width: 30%; }
+.player-cover { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
+.player-info h4 { font-size: 0.95rem; font-weight: 700; }
+.player-info p { font-size: 0.78rem; color: var(--muted); }
+.player-controls { flex: 1; max-width: 500px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.player-btn { background: var(--text); color: #000; width: 38px; height: 38px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: .2s; }
+.player-btn:hover { transform: scale(1.08); }
+.progress-container { width: 100%; display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--muted); }
+.progress-bg { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; cursor: pointer; position: relative; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); width: 0%; border-radius: 4px; transition: width .1s linear; }
 
-.pay-box {
-  max-width:600px;
-  margin:0 auto;
-  background:var(--card);
-  border:1px dashed var(--accent);
-  padding:30px;
-  border-radius:14px;
-}
+/* MODAL ADMIN */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+.modal-box { background: #16161A; border: 1px solid var(--border); width: 100%; max-width: 650px; max-height: 90vh; border-radius: 20px; padding: 30px; position: relative; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+.close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.4rem; color: var(--muted); transition: .2s; }
+.close:hover { color: #fff; }
+.fg { margin-bottom: 16px; }
+.fg label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .82rem; font-weight: 500; }
+.fg input { width: 100%; padding: 12px; background: #0A0A0C; border: 1px solid var(--border); color: #fff; border-radius: 10px; font-size: 0.9rem; transition: .2s; }
+.fg input:focus { border-color: var(--accent); outline: none; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-/* WHATSAPP */
+.admin-badge-editing { background: rgba(124,58,237,0.15); border: 1px solid var(--accent); color: var(--accent); padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
 
-.what {
-  position:fixed;
-  bottom:25px;
-  right:25px;
-  background:#25d366;
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  z-index:999;
-  animation:pulse 2s infinite;
-  color:#fff;
-}
+.list { margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; }
+.item { display: flex; justify-content: space-between; align-items: center; background: #0A0A0C; padding: 12px 16px; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--border); }
+.item-btns { display: flex; gap: 8px; }
+.btn-edit { background: rgba(124,58,237,0.2); color: #A78BFA; border: 1px solid var(--accent); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: .2s; }
+.btn-edit:hover { background: var(--accent); color: #fff; }
+.btn-del { background: rgba(239,68,68,0.15); color: #FCA5A5; border: 1px solid var(--danger); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: .2s; }
+.btn-del:hover { background: var(--danger); color: #fff; }
 
-/* FOOTER */
+.what-btn { position: fixed; bottom: 25px; right: 25px; background: var(--success); width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; z-index: 98; color: #fff; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: .3s; }
+.what-btn:hover { transform: scale(1.1); }
 
-footer {
-  padding:40px 0;
-  border-top:1px solid var(--border);
-  text-align:center;
-  color:var(--muted);
-}
-
-/* MODALS */
-
-.modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.92);
-  z-index:2000;
-  align-items:flex-start;
-  justify-content:center;
-  padding:30px 20px;
-  overflow-y:auto;
-}
-
-.modal-box {
-  background:#161616;
-  border:1px solid var(--border);
-  width:100%;
-  max-width:750px;
-  border-radius:14px;
-  padding:30px;
-  position:relative;
-  animation:fadeUp .4s ease;
-}
-
-.close {
-  position:absolute;
-  top:15px;
-  right:15px;
-  cursor:pointer;
-  font-size:1.6rem;
-  color:var(--muted);
-}
-
-.fg { margin-bottom:14px; }
-
-.fg label {
-  display:block;
-  margin-bottom:6px;
-  color:var(--muted);
-  font-size:.85rem;
-}
-
-.fg input, .fg select {
-  width:100%;
-  padding:11px;
-  background:#000;
-  border:1px solid var(--border);
-  color:#fff;
-  border-radius:8px;
-}
-
-.fg input:focus, .fg select:focus {
-  border-color:var(--accent);
-  outline:none;
-}
-
-.admin-section {
-  background:#0A0A0A;
-  border:1px solid var(--border);
-  padding:20px;
-  border-radius:10px;
-  margin-bottom:25px;
-}
-
-.admin-section h3 {
-  color:var(--accent);
-  margin-bottom:15px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.list {
-  max-height:200px;
-  overflow-y:auto;
-  margin-top:15px;
-}
-
-.item {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#121212;
-  padding:10px;
-  border-radius:8px;
-  margin-bottom:6px;
-  border:1px solid var(--border);
-}
-
-.item-btns {
-  display:flex;
-  gap:8px;
-}
-
-.btn-edit {
-  background:var(--accent);
-  color:#fff;
-  border:none;
-  padding:5px 10px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.btn-del {
-  background:#ff3333;
-  color:#fff;
-  border:none;
-  padding:5px 10px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.payment-info {
-  background:#000;
-  padding:20px;
-  border-radius:12px;
-  margin:20px 0;
-}
-
-/* MOBILE */
-
-@media(max-width:768px) {
-  .hero h1 { font-size:2.2rem; }
-  nav ul { display:none; }
-  .card:hover { transform:none; }
-  .play { opacity:1; }
+@media(max-width: 768px) {
+  .hero h1 { font-size: 2.3rem; }
+  nav ul { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+  .player-bar { flex-direction: column; gap: 10px; padding: 12px; }
+  .player-track { width: 100%; }
+  .player-controls { width: 100%; }
 }
 </style>
 </head>
-
 <body>
-
-<!-- HEADER -->
 
 <header>
   <div class="container nav">
-
     <a class="logo" href="#">
-      <img id="logoImg" src="https://via.placeholder.com/100" alt="Logo RSB Prodzeur" class="logo-img">
+      <img id="logoImg" src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=100" alt="Logo RSB" class="logo-img"> 
       RSB <span>PRODZEUR</span>
     </a>
-
     <nav>
       <ul>
         <li><a href="#beats">Beats</a></li>
-        <li><a href="#photos">Photos</a></li>
-        <li><a href="#videos">Vidéos</a></li>
-        <li><a href="#tarifs">Tarifs</a></li>
+        <li><a href="#youtube">YouTube</a></li>
+        <li><a href="#tarifs">Tarifs Studio</a></li>
       </ul>
     </nav>
-
-    <button class="btn-admin" onclick="openAdmin()">
-      <i class="fa-solid fa-lock"></i> Admin
-    </button>
-
+    <button class="btn-admin" onclick="openAdmin()"><i class="fa-solid fa-lock"></i> Dashboard</button>
   </div>
 </header>
 
-
-<!-- HERO -->
-
 <section class="hero">
   <div class="container">
-
-    <h1 class="animate">
-      Des instrus qui parlent à ton âme.
-      <br>
-      Prêt pour ton prochain hit?
-    </h1>
-
-    <p class="animate delay1">
-      Écoute 20 secondes. Si tu kiffes, tu peux acheter ton beat directement.
-    </p>
-
+    <h1 class="animate"><span>Des instrus d'exception</span><br>pour tes futurs hits.</h1>
+    <p class="animate delay1">Écoute un extrait de 20s. Sélectionne le beat qui te correspond et finalise directement ton acquisition via WhatsApp.</p>
     <div class="hero-btns animate delay2">
-
-      <a href="#beats" class="btn-pr">
-        <i class="fa-solid fa-play"></i> Écouter les beats
-      </a>
-
-      <a id="heroYt" href="#" target="_blank" class="btn-yt">
-        <i class="fa-brands fa-youtube"></i> YouTube
-      </a>
-
+      <a href="#beats" class="btn-pr"><i class="fa-solid fa-play"></i> Découvrir le catalogue</a>
+      <a id="heroYt" href="#" target="_blank" class="btn-yt"><i class="fa-brands fa-youtube"></i> Chaîne YouTube</a>
     </div>
-
   </div>
 </section>
 
-
-<!-- BEATS -->
-
 <section class="section container" id="beats">
-  <h2 class="title animate">Beats Disponibles</h2>
+  <div class="title-container animate">
+    <h2 class="title">Catalogue Instrumental</h2>
+    <p class="subtitle">Écoute les derniers beats produits par RSB Prodzeur</p>
+  </div>
   <div class="grid-beats" id="beatsGrid"></div>
 </section>
 
-
-<!-- GALERIE PHOTOS -->
-
-<section class="section container" id="photos">
-  <h2 class="title animate">Galerie Photos</h2>
-  <div class="grid-media" id="photosGrid"></div>
-</section>
-
-
-<!-- GALERIE VIDÉOS -->
-
-<section class="section container" id="videos" style="background:#0F0F12;">
+<section class="section" id="youtube" style="background:#0D0D10; border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
   <div class="container">
-    <h2 class="title animate" style="padding-top:40px;">Studio & Clips (Vidéos)</h2>
-    <div class="grid-media" id="videosGrid"></div>
-  </div>
-</section>
-
-
-<!-- YOUTUBE -->
-
-<section class="section">
-  <div class="container">
-
     <div class="yt-box animate">
-      <i class="fa-brands fa-youtube" style="font-size:3rem;color:#FF0000"></i>
-      <h2 style="margin:15px 0">Ma Chaîne YouTube</h2>
-      <p style="color:var(--muted);margin-bottom:25px">Tutos, freestyles, nouveaux beats. Abonne-toi pour ne rien rater.</p>
-
-      <a id="ytBtn" href="#" target="_blank" class="btn-yt">
-        <i class="fa-brands fa-youtube"></i> S'abonner
-      </a>
+      <i class="fa-brands fa-youtube" style="font-size:3.5rem; color:#FF0000; margin-bottom:15px"></i>
+      <h2 style="font-size:1.8rem; margin-bottom:10px">Rejoins la communauté sur YouTube</h2>
+      <p style="color:var(--muted); margin-bottom:25px; max-width:480px; margin-left:auto; margin-right:auto">Tutoriels, coulisses de production et nouveaux bangers disponibles chaque semaine.</p>
+      <a id="ytBtn" href="#" target="_blank" class="btn-yt"><i class="fa-brands fa-youtube"></i> S'abonner à la chaîne</a>
     </div>
-
   </div>
 </section>
-
-
-<!-- TARIFS -->
 
 <section class="section container" id="tarifs">
-  <h2 class="title">Tarifs Studio</h2>
+  <div class="title-container">
+    <h2 class="title">Services & Tarifs Studio</h2>
+    <p class="subtitle">Des formules sur-mesure pour donner vie à tes projets musicaux</p>
+  </div>
   <div class="pricing" id="pricingGrid"></div>
 </section>
 
-
-<!-- PAIEMENT INFO MOBILE -->
-
 <section class="payment">
-  <div class="pay-box animate">
-    <div style="color:#E20613;font-weight:800;font-size:1.4rem">
-      <i class="fa-solid fa-mobile-screen"></i> Airtel Money / Mobile Money
+  <div class="container">
+    <div class="pay-box animate">
+      <div style="color:#E20613; font-weight:800; font-size:1.3rem; margin-bottom:8px">
+        <i class="fa-solid fa-mobile-screen-button"></i> Paiement Mobile Airtel Money
+      </div>
+      <p style="font-weight:800; font-size:1.5rem; letter-spacing:1px; margin-bottom:4px">+<span id="phoneTxt">243000000000</span></p>
+      <p style="color:var(--muted); font-size:0.9rem">Bénéficiaire : RSB Prodzeur</p>
     </div>
-
-    <p style="margin:10px 0;font-weight:700;font-size:1.3rem">
-      + <span id="phoneTxt">243000000000</span>
-    </p>
-
-    <p style="color:var(--muted)">Nom: RSB Prodzeur</p>
   </div>
 </section>
 
-
-<!-- FOOTER -->
+<!-- LECTEUR AUDIO FIXE -->
+<div class="player-bar" id="playerBar">
+  <div class="player-track">
+    <img id="playerCover" src="" alt="Cover" class="player-cover">
+    <div class="player-info">
+      <h4 id="playerTitle">Titre du beat</h4>
+      <p id="playerDetails">Détails</p>
+    </div>
+  </div>
+  <div class="player-controls">
+    <button class="player-btn" onclick="togglePlay()"><i id="playerPlayIcon" class="fa-solid fa-pause"></i></button>
+    <div class="progress-container">
+      <span id="currTime">0:00</span>
+      <div class="progress-bg" onclick="seek(event)">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span>0:20</span>
+    </div>
+  </div>
+  <div style="width:30%; text-align:right">
+    <a id="playerBuyBtn" href="#" target="_blank" class="btn-buy"><i class="fa-brands fa-whatsapp"></i> Acheter</a>
+  </div>
+</div>
 
 <footer>
-  <div class="container">
-    <p>© 2026 RSB Prodzeur - Lubumbashi</p>
-    <p style="margin-top:8px">
-      <a onclick="openAdmin()" style="font-size:.7rem;color:#444;cursor:pointer">Admin Dashboard</a>
-    </p>
+  <div class="container" style="text-align:center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--muted); font-size:0.9rem;">
+    <p>© 2026 RSB Prodzeur - Lubumbashi, RDC. Tous droits réservés.</p>
   </div>
 </footer>
 
-
-<!-- WHATSAPP FLOAT -->
-
-<a id="waFloat" href="#" target="_blank" class="what" aria-label="Contact WhatsApp">
-  <i class="fa-brands fa-whatsapp"></i>
-</a>
-
+<a id="waFloat" href="#" target="_blank" class="what-btn" aria-label="Contact WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 <audio id="audio"></audio>
 
-
-<!-- ================================
-     MODAL ADMIN
-================================ -->
-
+<!-- MODAL DASHBOARD ADMIN -->
 <div class="modal" id="adminModal">
   <div class="modal-box">
-
     <span class="close" onclick="closeAdmin()">&times;</span>
-
-    <!-- LOGIN -->
+    
+    <!-- CONEXION -->
     <div id="loginBox">
-      <h2>Connexion Admin</h2>
-      <br>
-
+      <h2 style="margin-bottom:10px; font-size:1.5rem">Espace d'administration</h2>
+      <p style="color:var(--muted); font-size:0.9rem; margin-bottom:20px">Veuillez entrer le mot de passe pour accéder à la gestion.</p>
       <div class="fg">
-        <label>Mot de passe (défaut : prodzeur)</label>
-        <input type="password" id="passInput">
+        <label>Mot de passe</label>
+        <input type="password" id="passInput" placeholder="Saisir le mot de passe">
       </div>
-
-      <button class="btn-pr" onclick="login()" style="width:100%">Entrer</button>
+      <button class="btn-pr" onclick="login()" style="width:100%; justify-content:center">Se connecter</button>
     </div>
-
 
     <!-- DASHBOARD -->
     <div id="dashBox" style="display:none">
+      <h2 style="font-size:1.4rem; margin-bottom:20px">Dashboard de Gestion</h2>
 
-      <h2>Dashboard RSB V6</h2>
-      <hr style="border-color:var(--border);margin:15px 0">
+      <!-- PARAMÈTRES -->
+      <div style="background:#0A0A0C; border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:25px">
+        <h3 style="font-size:1rem; margin-bottom:15px; color:var(--text)"><i class="fa-solid fa-gear"></i> Paramètres généraux</h3>
+        <div class="fg"><label>Logo de la marque (Fichier image)</label><input type="file" id="cfgLogo" accept="image/*"></div>
+        <div class="form-row">
+          <div class="fg"><label>Numéro WhatsApp / Airtel Money</label><input type="text" id="cfgPhone"></div>
+          <div class="fg"><label>Lien Chaîne YouTube</label><input type="text" id="cfgYt"></div>
+        </div>
+        <button class="btn-pr" onclick="saveCfg()" style="width:100%; justify-content:center; padding:10px">Enregistrer la configuration</button>
+      </div>
 
-      <!-- 1. SÉCURITÉ & MOT DE PASSE -->
-      <div class="admin-section">
-        <h3><i class="fa-solid fa-shield-halved"></i> 1. Sécurité (Mot de passe Admin)</h3>
+      <!-- FORMULAIRE BEAT -->
+      <div style="background:#0A0A0C; border:1px solid var(--border); border-radius:12px; padding:18px">
+        <h3 id="formBeatTitle" style="font-size:1rem; margin-bottom:15px; color:var(--text)"><i class="fa-solid fa-music"></i> Ajouter un nouvel instrumental</h3>
         
-        <div class="fg">
-          <label>Nouveau mot de passe d'administration</label>
-          <input type="password" id="newAdminPass" placeholder="Saisir le nouveau mot de passe">
+        <div id="editModeBadge" class="admin-badge-editing" style="display:none">
+          <span><i class="fa-solid fa-pen"></i> Mode édition actif</span>
+          <button onclick="cancelEdit()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-weight:700">Annuler</button>
         </div>
 
-        <button class="btn-pr" onclick="changeAdminPassword()" style="width:100%;background:#D97706">
-          🔒 CHANGER LE MOT DE PASSE
+        <input type="hidden" id="editBeatId" value="">
+        
+        <div class="form-row">
+          <div class="fg"><label>Titre de l'instru *</label><input type="text" id="bTitle" placeholder="Ex: Lualaba Vibe"></div>
+          <div class="fg"><label>Prix ($) *</label><input type="number" id="bPrice" placeholder="25"></div>
+        </div>
+        
+        <div class="fg"><label>Détails / Caractéristiques</label><input type="text" id="bDetails" placeholder="Ex: 102 BPM - A Minor"></div>
+
+        <div class="form-row">
+          <div class="fg">
+            <label>Pochette (Importer un fichier)</label>
+            <input type="file" id="bCoverFile" accept="image/*">
+          </div>
+          <div class="fg">
+            <label>OU Lien URL de la Pochette</label>
+            <input type="text" id="bCoverUrl" placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="fg">
+            <label>Fichier Audio MP3 (Importer un fichier)</label>
+            <input type="file" id="bAudioFile" accept="audio/*">
+          </div>
+          <div class="fg">
+            <label>OU Lien URL Audio MP3</label>
+            <input type="text" id="bAudioUrl" placeholder="https://... .mp3">
+          </div>
+        </div>
+
+        <button class="btn-pr" id="btnSaveBeat" onclick="saveBeat()" style="width:100%; justify-content:center; background:var(--success); margin-top:10px">
+          <i class="fa-solid fa-plus"></i> PUBLIER L'INSTRUMENTAL
+        </button>
+        <button class="btn-pr" id="btnCancelEdit" onclick="cancelEdit()" style="width:100%; justify-content:center; background:#3F3F46; margin-top:8px; display:none">
+          Annuler les modifications
         </button>
       </div>
 
-      <!-- 2. PARAMÈTRES GENERAUX & API -->
-      <div class="admin-section">
-        <h3><i class="fa-solid fa-sliders"></i> 2. Paramètres & API Flutterwave</h3>
-
-        <div class="fg">
-          <label style="color:#7C3AED;font-weight:700">🔑 Clé Publique Flutterwave</label>
-          <input type="text" id="cfgFlwKey" placeholder="FLWPUBK_TEST-xxxxxxxxxxxxxxxx-X">
-        </div>
-
-        <div class="fg">
-          <label>Logo Carré du site</label>
-          <input type="file" id="cfgLogo" accept="image/*">
-        </div>
-
-        <div class="fg">
-          <label>Numéro WhatsApp / Airtel Money</label>
-          <input type="text" id="cfgPhone" placeholder="243977006515">
-        </div>
-
-        <div class="fg">
-          <label>Lien Chaîne YouTube</label>
-          <input type="text" id="cfgYt" placeholder="https://youtube.com/@rsbprodzeur">
-        </div>
-
-        <button class="btn-pr" onclick="saveCfg()" style="width:100%">💾 SAUVEGARDER LES PARAMÈTRES</button>
+      <!-- LISTE DES BEATS -->
+      <div class="list">
+        <h3 style="font-size:0.95rem; margin-bottom:12px; color:var(--muted)">Instrus publiées (<span id="beatCount">0</span>)</h3>
+        <div id="adminList"></div>
       </div>
-
-      <!-- 3. BEATS -->
-      <div class="admin-section">
-        <h3 id="formBeatTitle"><i class="fa-solid fa-music"></i> 3. Gestion des Beats</h3>
-        <input type="hidden" id="editBeatId" value="">
-
-        <div class="fg">
-          <label>Titre du beat</label>
-          <input type="text" id="bTitle">
-        </div>
-
-        <div class="fg">
-          <label>Détails (BPM / Clé)</label>
-          <input type="text" id="bDetails" placeholder="100 BPM - C Minor">
-        </div>
-
-        <div class="fg">
-          <label>Prix ($)</label>
-          <input type="number" id="bPrice">
-        </div>
-
-        <div class="fg">
-          <label>Pochette (Fichier ou URL)</label>
-          <input type="file" id="bCoverFile" accept="image/*">
-          <input type="text" id="bCoverUrl" placeholder="OU Lien image https://..." style="margin-top:5px">
-        </div>
-
-        <div class="fg">
-          <label>Fichier Audio MP3 (Fichier ou URL)</label>
-          <input type="file" id="bAudioFile" accept="audio/*">
-          <input type="text" id="bAudioUrl" placeholder="OU Lien audio https://..." style="margin-top:5px">
-        </div>
-
-        <button class="btn-pr" id="btnSaveBeat" style="width:100%;background:#25D366" onclick="saveBeat()">AJOUTER LE BEAT</button>
-        <button class="btn-pr" id="btnCancelEdit" style="width:100%;background:#555;margin-top:8px;display:none" onclick="cancelEdit()">Annuler</button>
-
-        <div class="list" id="adminBeatList"></div>
-      </div>
-
-      <!-- 4. GESTION DES PHOTOS -->
-      <div class="admin-section">
-        <h3 id="formPhotoTitle"><i class="fa-solid fa-image"></i> 4. Galerie Photos</h3>
-        <input type="hidden" id="editPhotoId" value="">
-
-        <div class="fg">
-          <label>Titre / Légende de la photo</label>
-          <input type="text" id="photoTitle" placeholder="Studio Session RSB">
-        </div>
-
-        <div class="fg">
-          <label>Fichier Image ou URL</label>
-          <input type="file" id="photoFile" accept="image/*">
-          <input type="text" id="photoUrl" placeholder="OU Lien https://..." style="margin-top:5px">
-        </div>
-
-        <button class="btn-pr" id="btnSavePhoto" onclick="addPhoto()" style="width:100%;background:#25D366">AJOUTER LA PHOTO</button>
-        <button class="btn-pr" id="btnCancelPhotoEdit" style="width:100%;background:#555;margin-top:8px;display:none" onclick="cancelPhotoEdit()">Annuler</button>
-
-        <div class="list" id="adminPhotoList"></div>
-      </div>
-
-      <!-- 5. GESTION DES VIDÉOS -->
-      <div class="admin-section">
-        <h3 id="formVideoTitle"><i class="fa-solid fa-video"></i> 5. Galerie Vidéos</h3>
-        <input type="hidden" id="editVideoId" value="">
-
-        <div class="fg">
-          <label>Titre de la vidéo</label>
-          <input type="text" id="videoTitle" placeholder="Making of Beat Rap">
-        </div>
-
-        <div class="fg">
-          <label>Source vidéo (Fichier MP4 ou Lien Embed/YouTube/Lien direct)</label>
-          <input type="file" id="videoFile" accept="video/mp4,video/*">
-          <input type="text" id="videoUrl" placeholder="OU Lien MP4 / YouTube https://..." style="margin-top:5px">
-        </div>
-
-        <button class="btn-pr" id="btnSaveVideo" onclick="addVideo()" style="width:100%;background:#25D366">AJOUTER LA VIDÉO</button>
-        <button class="btn-pr" id="btnCancelVideoEdit" style="width:100%;background:#555;margin-top:8px;display:none" onclick="cancelVideoEdit()">Annuler</button>
-
-        <div class="list" id="adminVideoList"></div>
-      </div>
-
     </div>
-
   </div>
 </div>
-
-
-<!-- MODAL PAIEMENT -->
-
-<div class="modal" id="paymentModal">
-  <div class="modal-box" style="max-width:500px">
-
-    <span class="close" onclick="closePayment()">&times;</span>
-    <h2>💳 Acheter le beat</h2>
-
-    <div id="paymentInfo" class="payment-info"></div>
-
-    <div class="fg">
-      <label>Votre nom</label>
-      <input type="text" id="customerName" placeholder="Votre nom">
-    </div>
-
-    <div class="fg">
-      <label>Votre adresse email</label>
-      <input type="email" id="customerEmail" placeholder="exemple@email.com">
-    </div>
-
-    <div class="fg">
-      <label>Votre numéro de téléphone</label>
-      <input type="tel" id="customerPhone" placeholder="243XXXXXXXXX">
-    </div>
-
-    <button class="btn-pr" onclick="startPayment()" style="width:100%">
-      <i class="fa-solid fa-lock"></i> CONTINUER LE PAIEMENT
-    </button>
-
-    <p style="color:#777;font-size:.75rem;text-align:center;margin-top:15px">
-      Paiement sécurisé par Flutterwave
-    </p>
-
-  </div>
-</div>
-
 
 <script>
-
-/* =========================================
-   DONNÉES INITIALES
-   ========================================= */
-
 const defaultBeats = [
-  {
-    id:1,
-    title:"Lualaba Vibe",
-    details:"102 BPM - A Minor",
-    price:25,
-    cover:"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400",
-    audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-  }
-];
-
-const defaultPhotos = [
-  { id: 1, title: "Studio RSB Lubumbashi", url: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=500" }
-];
-
-const defaultVideos = [
-  { id: 1, title: "Session Mixage", url: "https://www.w3schools.com/html/mov_bbb.mp4" }
+  { id: 1, title: "Lualaba Vibe", details: "102 BPM - A Minor", price: 25, cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+  { id: 2, title: "Katanga Drill", details: "140 BPM - C Minor", price: 30, cover: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
 ];
 
 const tarifs = [
-  { name:"Beat Simple", usd:15, cdf:"42.000 CDF", feat:false },
-  { name:"Beat Pro + Mix", usd:40, cdf:"112.000 CDF", feat:true },
-  { name:"Prise de voix", usd:20, cdf:"56.000 CDF", feat:false },
-  { name:"Pack Complet", usd:70, cdf:"196.000 CDF", feat:true }
+  { name: "Beat Lease (Simple)", usd: 15, cdf: "42.000 CDF", feat: false },
+  { name: "Beat Pro + Mixage", usd: 40, cdf: "112.000 CDF", feat: true },
+  { name: "Enregistrement Voix", usd: 20, cdf: "56.000 CDF", feat: false },
+  { name: "Production & Mix Complet", usd: 70, cdf: "196.000 CDF", feat: true }
 ];
 
+function getBeats() { try { const s = localStorage.getItem('rsb_v5_beats'); return s ? JSON.parse(s) : defaultBeats; } catch(e) { return defaultBeats; } }
+function getCfg() { try { const s = localStorage.getItem('rsb_v5_cfg'); return s ? JSON.parse(s) : { phone: "243977006515", logo: "", youtube: "https://youtube.com/@rsbprodzeur", pass: "prodzeur" }; } catch(e) { return { phone: "243977006515", logo: "", youtube: "https://youtube.com/@rsbprodzeur", pass: "prodzeur" }; } }
 
-/* =========================================
-   LOCAL STORAGE SÉCURISÉ & REINITIALISATION
-   ========================================= */
-
-function safeSetStorage(key, data) {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-    return true;
-  } catch(e) {
-    alert("⚠️ Les fichiers importés localement sont trop volumineux pour la mémoire du navigateur. Privilégiez des liens URL (https://...) pour économiser l'espace.");
-    return false;
-  }
-}
-
-function getBeats() {
-  try {
-    const s = localStorage.getItem("rsb_v6_beats");
-    return s ? JSON.parse(s) : defaultBeats;
-  } catch(e) { return defaultBeats; }
-}
-
-function getPhotos() {
-  try {
-    const s = localStorage.getItem("rsb_v6_photos");
-    return s ? JSON.parse(s) : defaultPhotos;
-  } catch(e) { return defaultPhotos; }
-}
-
-function getVideos() {
-  try {
-    const s = localStorage.getItem("rsb_v6_videos");
-    return s ? JSON.parse(s) : defaultVideos;
-  } catch(e) { return defaultVideos; }
-}
-
-function getCfg() {
-  const defaultCfg = {
-    phone:"243977006515",
-    logo:"",
-    youtube:"https://youtube.com/@rsbprodzeur",
-    pass:"prodzeur",
-    flwKey:""
-  };
-
-  try {
-    const s = localStorage.getItem("rsb_v6_cfg");
-    return s ? JSON.parse(s) : defaultCfg;
-  } catch(e) { return defaultCfg; }
-}
-
-
-let beats = getBeats();
-let photos = getPhotos();
-let videos = getVideos();
+let beats = getBeats(); 
 let cfg = getCfg();
+const audio = document.getElementById('audio'); 
+let currentBeat = null;
 
-const audio = document.getElementById("audio");
-let curId = null;
-let selectedBeat = null;
+function playPreview(id) {
+  const b = beats.find(item => item.id === id);
+  if (!b) return;
 
-
-/* =========================================
-   ÉCHAPPEMENT HTML
-   ========================================= */
-
-function escapeHtml(value) {
-  return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-
-/* =========================================
-   LECTURE AUDIO
-   ========================================= */
-
-function playPreview(url, id) {
-  if (curId === id && !audio.paused) {
-    audio.pause();
-    curId = null;
-    upd();
+  if (currentBeat && currentBeat.id === id) {
+    togglePlay();
     return;
   }
 
-  audio.src = url;
+  currentBeat = b;
+  audio.src = b.audio;
   audio.currentTime = 0;
-
-  audio.play().catch(() => {
-    alert("Impossible de lire ce fichier audio.");
+  
+  audio.play().then(() => {
+    updatePlayerUI();
+  }).catch(() => {
+    alert("Impossible de lire ce fichier audio. Vérifiez la validité du fichier ou du lien.");
   });
 
-  curId = id;
-  upd();
-
   audio.ontimeupdate = () => {
-    const pBar = document.getElementById("pb-" + id);
-    if(pBar) {
-      const progress = Math.min((audio.currentTime / 20) * 100, 100);
-      pBar.style.width = progress + "%";
+    const fill = document.getElementById('progressFill');
+    const curr = document.getElementById('currTime');
+    if (fill) fill.style.width = ((audio.currentTime / 20) * 100) + '%';
+    if (curr) {
+      const sec = Math.floor(audio.currentTime);
+      curr.innerText = `0:${sec < 10 ? '0' : ''}${sec}`;
     }
 
-    if(audio.currentTime >= 20) {
+    if (audio.currentTime >= 20) {
       audio.pause();
       audio.currentTime = 0;
-      curId = null;
-      upd();
-      alert("Extrait de 20s terminé. Contactez RSB Prodzeur pour obtenir le WAV complet.");
+      updatePlayerUI();
+      alert("Fin de l'extrait de 20 secondes. Contactez-moi sur WhatsApp pour obtenir le WAV complet !");
     }
   };
 }
 
-function upd() {
-  document.querySelectorAll(".play i").forEach(i => { i.className = "fa-solid fa-play"; });
-  document.querySelectorAll(".progress-bar").forEach(b => { b.style.width = "0%"; });
+function togglePlay() {
+  if (!audio.src) return;
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+  updatePlayerUI();
+}
 
-  if(curId && !audio.paused) {
-    const el = document.getElementById("pi-" + curId);
-    if(el) el.className = "fa-solid fa-pause";
+function seek(e) {
+  if (!audio.src) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pos = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pos * 20;
+}
+
+function updatePlayerUI() {
+  const pBar = document.getElementById('playerBar');
+  const pIcon = document.getElementById('playerPlayIcon');
+
+  if (currentBeat) {
+    pBar.classList.add('active');
+    document.getElementById('playerCover').src = currentBeat.cover;
+    document.getElementById('playerTitle').innerText = currentBeat.title;
+    document.getElementById('playerDetails').innerText = currentBeat.details;
+    document.getElementById('playerBuyBtn').href = `https://wa.me/${cfg.phone}?text=Bonjour%20RSB%20Prodzeur,%20je%20souhaite%20acheter%20le%20beat:%20${encodeURIComponent(currentBeat.title)}`;
+    
+    pIcon.className = audio.paused ? 'fa-solid fa-play' : 'fa-solid fa-pause';
+
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('playing'));
+    const activeCard = document.getElementById(`card-${currentBeat.id}`);
+    if (activeCard && !audio.paused) activeCard.classList.add('playing');
   }
 }
 
-
-/* =========================================
-   RENDU DES ÉLÉMENTS (BEATS, PHOTOS, VIDÉOS)
-   ========================================= */
-
 function renderBeats() {
-  const g = document.getElementById("beatsGrid");
-  g.innerHTML = "";
-
-  beats.forEach((b,i) => {
+  const g = document.getElementById('beatsGrid');
+  g.innerHTML = '';
+  beats.forEach((b, i) => {
     const wa = `https://wa.me/${cfg.phone}?text=Bonjour%20RSB%20Prodzeur,%20je%20souhaite%20acheter%20le%20beat:%20${encodeURIComponent(b.title)}`;
-
     g.innerHTML += `
-      <div class="card" style="animation-delay:${i * 0.1}s">
+      <div class="card" id="card-${b.id}" style="animation-delay:${i * 0.05}s">
         <div class="cover">
-          <img src="${escapeHtml(b.cover)}" alt="${escapeHtml(b.title)}">
-          <div class="play" onclick="playPreview('${String(b.audio).replace(/'/g,"\\'")}', ${b.id})">
-            <i id="pi-${b.id}" class="fa-solid fa-play"></i>
+          <img src="${b.cover}" alt="${b.title}">
+          <div class="play-overlay" onclick="playPreview(${b.id})">
+            <div class="play-btn-icon">
+              <i class="fa-solid fa-play"></i>
+            </div>
           </div>
-          <div class="progress-bar" id="pb-${b.id}"></div>
         </div>
-        <span class="badge"><i class="fa-solid fa-lock"></i> Extrait 20s</span>
-        <h3 style="margin-top:8px">${escapeHtml(b.title)}</h3>
-        <p style="color:var(--muted);font-size:.85rem">${escapeHtml(b.details)}</p>
-
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px">
-          <span class="price">${Number(b.price)}$</span>
-          <button class="btn-pay" onclick="openPayment(${b.id})"><i class="fa-solid fa-credit-card"></i> Payer</button>
-          <a href="${wa}" target="_blank" class="btn-buy"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+        <div class="card-info">
+          <div>
+            <span class="card-tag">Extrait 20s</span>
+            <h3 class="card-title">${b.title}</h3>
+            <p class="card-details">${b.details}</p>
+          </div>
+          <div class="card-footer">
+            <span class="price">${b.price}$</span>
+            <a href="${wa}" target="_blank" class="btn-buy"><i class="fa-brands fa-whatsapp"></i> Acheter</a>
+          </div>
         </div>
-      </div>
-    `;
-  });
-}
-
-function renderPhotos() {
-  const g = document.getElementById("photosGrid");
-  g.innerHTML = "";
-
-  photos.forEach(p => {
-    g.innerHTML += `
-      <div class="media-card">
-        <img src="${escapeHtml(p.url)}" alt="${escapeHtml(p.title)}">
-        <div class="media-info">
-          <h4>${escapeHtml(p.title)}</h4>
-        </div>
-      </div>
-    `;
-  });
-}
-
-function renderVideos() {
-  const g = document.getElementById("videosGrid");
-  g.innerHTML = "";
-
-  videos.forEach(v => {
-    let videoMarkup = "";
-
-    if (v.url.includes("youtube.com") || v.url.includes("youtu.be")) {
-      const embedUrl = v.url.replace("watch?v=", "embed/");
-      videoMarkup = `<iframe src="${escapeHtml(embedUrl)}" allowfullscreen></iframe>`;
-    } else {
-      videoMarkup = `<video controls src="${escapeHtml(v.url)}"></video>`;
-    }
-
-    g.innerHTML += `
-      <div class="media-card">
-        ${videoMarkup}
-        <div class="media-info">
-          <h4>${escapeHtml(v.title)}</h4>
-        </div>
-      </div>
-    `;
+      </div>`;
   });
 }
 
 function renderTarifs() {
-  const g = document.getElementById("pricingGrid");
-  g.innerHTML = "";
-
+  const g = document.getElementById('pricingGrid');
+  g.innerHTML = '';
   tarifs.forEach(t => {
-    const wa = `https://wa.me/${cfg.phone}?text=Bonjour%20RSB%20Prodzeur,%20offre:%20${encodeURIComponent(t.name)}`;
+    const wa = `https://wa.me/${cfg.phone}?text=Bonjour%20RSB%20Prodzeur,%20je%20suis%20intéressé%20par%20l'offre:%20${encodeURIComponent(t.name)}`;
     g.innerHTML += `
-      <div class="p-card ${t.feat ? "feat" : ""}">
-        <h3>${escapeHtml(t.name)}</h3>
-        <div style="font-size:1.8rem;font-weight:800;color:var(--accent);margin:10px 0">${t.usd}$</div>
-        <div style="color:var(--muted)">${t.cdf}</div>
-        <a href="${wa}" target="_blank" style="display:block;margin-top:20px;padding:12px;border:1px solid var(--accent);border-radius:8px">Commander</a>
-      </div>
-    `;
+      <div class="p-card ${t.feat ? 'feat' : ''}">
+        <h3 style="font-size:1.1rem; margin-bottom:8px">${t.name}</h3>
+        <div style="font-size:2rem; font-weight:800; color:var(--accent); margin:12px 0">${t.usd}$</div>
+        <div style="color:var(--muted); font-size:0.9rem">${t.cdf}</div>
+        <a href="${wa}" target="_blank" class="btn-pr" style="display:block; margin-top:20px; font-size:0.85rem; padding:10px; border-radius:10px; background:${t.feat ? 'var(--accent)' : 'transparent'}; border:1px solid var(--accent)">Commander</a>
+      </div>`;
   });
 }
 
 function updateUI() {
-  document.getElementById("phoneTxt").innerText = cfg.phone;
-  document.getElementById("waFloat").href = `https://wa.me/${cfg.phone}`;
-  document.getElementById("ytBtn").href = cfg.youtube;
-  document.getElementById("heroYt").href = cfg.youtube;
-
-  if(cfg.logo) {
-    document.getElementById("logoImg").src = cfg.logo;
-  }
+  document.getElementById('phoneTxt').innerText = cfg.phone;
+  document.getElementById('waFloat').href = `https://wa.me/${cfg.phone}`;
+  document.getElementById('ytBtn').href = cfg.youtube;
+  document.getElementById('heroYt').href = cfg.youtube;
+  if (cfg.logo) document.getElementById('logoImg').src = cfg.logo;
 }
 
-
-/* =========================================
-   ADMINISTRATION & SÉCURITÉ MOT DE PASSE
-   ========================================= */
-
-function openAdmin() {
-  document.getElementById("adminModal").style.display = "flex";
-}
-
-function closeAdmin() {
-  document.getElementById("adminModal").style.display = "none";
-}
+function openAdmin() { document.getElementById('adminModal').style.display = 'flex'; }
+function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
 
 function login() {
-  const password = document.getElementById("passInput").value.trim();
-
-  if(password === "prodzeur" || password === cfg.pass) {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("dashBox").style.display = "block";
-
-    document.getElementById("cfgPhone").value = cfg.phone;
-    document.getElementById("cfgYt").value = cfg.youtube;
-    document.getElementById("cfgFlwKey").value = cfg.flwKey || "";
-
-    renderAdminLists();
+  if (document.getElementById('passInput').value === cfg.pass) {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('dashBox').style.display = 'block';
+    document.getElementById('cfgPhone').value = cfg.phone;
+    document.getElementById('cfgYt').value = cfg.youtube;
+    renderAdmin();
   } else {
-    alert("Mot de passe incorrect ! Essayez le mot de passe par défaut : prodzeur");
+    alert("Mot de passe incorrect !");
   }
 }
-
-function changeAdminPassword() {
-  const newPass = document.getElementById("newAdminPass").value.trim();
-
-  if(!newPass) {
-    alert("Veuillez saisir un mot de passe valide.");
-    return;
-  }
-
-  cfg.pass = newPass;
-  safeSetStorage("rsb_v6_cfg", cfg);
-  document.getElementById("newAdminPass").value = "";
-  alert("🔑 Le mot de passe administrateur a été modifié avec succès !");
-}
-
-
-/* =========================================
-   PARAMÈTRES GENERAUX
-   ========================================= */
 
 function saveCfg() {
-  const newPhone = document.getElementById("cfgPhone").value.trim();
-  const newYt = document.getElementById("cfgYt").value.trim();
-  const newFlwKey = document.getElementById("cfgFlwKey").value.trim();
-
-  if(newPhone) cfg.phone = newPhone;
-  if(newYt) cfg.youtube = newYt;
-  cfg.flwKey = newFlwKey;
-
-  const lf = document.getElementById("cfgLogo").files[0];
-
-  if(lf) {
-    cfg.logo = URL.createObjectURL(lf);
-    safeSetStorage("rsb_v6_cfg", cfg);
-    updateUI();
-    alert("✅ Paramètres enregistrés !");
+  const newPhone = document.getElementById('cfgPhone').value.trim();
+  const newYt = document.getElementById('cfgYt').value.trim();
+  if (newPhone) cfg.phone = newPhone;
+  if (newYt) cfg.youtube = newYt;
+  
+  const lf = document.getElementById('cfgLogo').files[0];
+  if (lf) {
+    const r = new FileReader();
+    r.onload = e => {
+      cfg.logo = e.target.result;
+      localStorage.setItem('rsb_v5_cfg', JSON.stringify(cfg));
+      updateUI();
+      alert("Configuration et logo mis à jour !");
+    };
+    r.readAsDataURL(lf);
   } else {
-    safeSetStorage("rsb_v6_cfg", cfg);
+    localStorage.setItem('rsb_v5_cfg', JSON.stringify(cfg));
     updateUI();
-    alert("✅ Paramètres enregistrés !");
+    alert("Configuration sauvegardée !");
   }
-}
-
-
-/* =========================================
-   GESTION BEATS ADMIN
-   ========================================= */
-
-function editBeat(id) {
-  const b = beats.find(item => item.id === id);
-  if(!b) return;
-
-  document.getElementById("editBeatId").value = b.id;
-  document.getElementById("bTitle").value = b.title;
-  document.getElementById("bDetails").value = b.details;
-  document.getElementById("bPrice").value = b.price;
-  document.getElementById("bCoverUrl").value = b.cover.startsWith("blob:") ? "" : b.cover;
-  document.getElementById("bAudioUrl").value = b.audio.startsWith("blob:") ? "" : b.audio;
-
-  document.getElementById("btnSaveBeat").innerText = "MODIFIER LE BEAT";
-  document.getElementById("btnSaveBeat").style.background = "#D97706";
-  document.getElementById("btnCancelEdit").style.display = "block";
 }
 
 function saveBeat() {
-  const editId = document.getElementById("editBeatId").value;
-  const t = document.getElementById("bTitle").value.trim();
-  const d = document.getElementById("bDetails").value.trim();
-  const p = document.getElementById("bPrice").value.trim();
-  const coverUrl = document.getElementById("bCoverUrl").value.trim();
-  const audioUrl = document.getElementById("bAudioUrl").value.trim();
+  const editId = document.getElementById('editBeatId').value;
+  const t = document.getElementById('bTitle').value.trim();
+  const d = document.getElementById('bDetails').value.trim();
+  const p = document.getElementById('bPrice').value.trim();
+  const coverUrl = document.getElementById('bCoverUrl').value.trim();
+  const audioUrl = document.getElementById('bAudioUrl').value.trim();
+  const coverFileInput = document.getElementById('bCoverFile');
+  const audioFileInput = document.getElementById('bAudioFile');
 
-  const coverFileInput = document.getElementById("bCoverFile");
-  const audioFileInput = document.getElementById("bAudioFile");
-
-  if(!t) {
-    alert("Veuillez saisir un titre.");
+  if (!t || !p) {
+    alert("Veuillez renseigner au moins le titre et le prix.");
     return;
   }
 
-  const existingBeat = editId ? beats.find(b => b.id == editId) : null;
-
-  let finalCover = coverUrl;
-  if(coverFileInput.files && coverFileInput.files[0]) {
-    finalCover = URL.createObjectURL(coverFileInput.files[0]);
-  } else if(!finalCover && existingBeat) {
-    finalCover = existingBeat.cover;
-  }
-
-  let finalAudio = audioUrl;
-  if(audioFileInput.files && audioFileInput.files[0]) {
-    finalAudio = URL.createObjectURL(audioFileInput.files[0]);
-  } else if(!finalAudio && existingBeat) {
-    finalAudio = existingBeat.audio;
-  }
-
-  if(!finalAudio) {
-    alert("Veuillez fournir un fichier MP3 ou un lien URL !");
-    return;
-  }
-
-  if(editId) {
-    const index = beats.findIndex(b => b.id == editId);
-    if(index !== -1) {
-      beats[index] = {
-        id: Number(editId),
-        title: t,
-        details: d || "N/A",
-        price: Number(p) || 20,
-        cover: finalCover || beats[index].cover,
-        audio: finalAudio
-      };
+  const processCover = (callback) => {
+    if (coverFileInput.files && coverFileInput.files[0]) {
+      const r = new FileReader();
+      r.onload = (e) => callback(e.target.result);
+      r.readAsDataURL(coverFileInput.files[0]);
+    } else {
+      callback(coverUrl);
     }
-  } else {
-    beats.push({
-      id: Date.now(),
-      title: t,
-      details: d || "N/A",
-      price: Number(p) || 20,
-      cover: finalCover || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400",
-      audio: finalAudio
-    });
-  }
+  };
 
-  safeSetStorage("rsb_v6_beats", beats);
-  renderBeats();
-  renderAdminLists();
-  cancelEdit();
-  alert("✅ Instrumental sauvegardé avec succès !");
+  const processAudio = (callback) => {
+    if (audioFileInput.files && audioFileInput.files[0]) {
+      const r = new FileReader();
+      r.onload = (e) => callback(e.target.result);
+      r.readAsDataURL(audioFileInput.files[0]);
+    } else {
+      callback(audioUrl);
+    }
+  };
+
+  processCover((finalCover) => {
+    processAudio((finalAudio) => {
+      const defaultCover = 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400';
+
+      if (editId) {
+        const index = beats.findIndex(b => b.id == editId);
+        if (index !== -1) {
+          beats[index] = {
+            id: Number(editId),
+            title: t,
+            details: d || "100 BPM",
+            price: p,
+            cover: finalCover || beats[index].cover || defaultCover,
+            audio: finalAudio || beats[index].audio
+          };
+        }
+      } else {
+        if (!finalAudio) {
+          alert("Veuillez charger un fichier audio MP3 ou insérer un lien audio URL.");
+          return;
+        }
+        beats.unshift({
+          id: Date.now(),
+          title: t,
+          details: d || "100 BPM",
+          price: p,
+          cover: finalCover || defaultCover,
+          audio: finalAudio
+        });
+      }
+
+      try {
+        localStorage.setItem('rsb_v5_beats', JSON.stringify(beats));
+        renderBeats();
+        renderAdmin();
+        cancelEdit();
+        alert(editId ? "Instrumental modifié avec succès !" : "Instrumental publié avec succès !");
+      } catch (e) {
+        alert("Attention : Le fichier audio est trop volumineux pour la mémoire locale de votre navigateur. Veuillez privilégier un lien MP3 direct.");
+      }
+    });
+  });
 }
 
-function delBeat(id) {
-  if(confirm("Supprimer cet instrumental ?")) {
-    beats = beats.filter(b => b.id !== id);
-    safeSetStorage("rsb_v6_beats", beats);
-    renderBeats();
-    renderAdminLists();
-  }
+function editBeat(id) {
+  const b = beats.find(item => item.id === id);
+  if (!b) return;
+
+  document.getElementById('editBeatId').value = b.id;
+  document.getElementById('bTitle').value = b.title;
+  document.getElementById('bDetails').value = b.details;
+  document.getElementById('bPrice').value = b.price;
+  document.getElementById('bCoverUrl').value = b.cover.startsWith('data:') ? '' : b.cover;
+  document.getElementById('bAudioUrl').value = b.audio.startsWith('data:') ? '' : b.audio;
+
+  document.getElementById('formBeatTitle').innerHTML = "<i class='fa-solid fa-pen'></i> Modifier l'instrumental";
+  document.getElementById('btnSaveBeat').innerHTML = "<i class='fa-solid fa-floppy-disk'></i> ENREGISTRER LES MODIFICATIONS";
+  document.getElementById('btnSaveBeat').style.background = "var(--accent)";
+  document.getElementById('btnCancelEdit').style.display = "flex";
+  document.getElementById('editModeBadge').style.display = "flex";
 }
 
 function cancelEdit() {
-  document.getElementById("editBeatId").value = "";
-  document.getElementById("bTitle").value = "";
-  document.getElementById("bDetails").value = "";
-  document.getElementById("bPrice").value = "";
-  document.getElementById("bCoverUrl").value = "";
-  document.getElementById("bAudioUrl").value = "";
-  document.getElementById("bCoverFile").value = "";
-  document.getElementById("bAudioFile").value = "";
+  document.getElementById('editBeatId').value = "";
+  document.getElementById('bTitle').value = "";
+  document.getElementById('bDetails').value = "";
+  document.getElementById('bPrice').value = "";
+  document.getElementById('bCoverUrl').value = "";
+  document.getElementById('bAudioUrl').value = "";
+  document.getElementById('bCoverFile').value = "";
+  document.getElementById('bAudioFile').value = "";
 
-  document.getElementById("btnSaveBeat").innerText = "AJOUTER LE BEAT";
-  document.getElementById("btnSaveBeat").style.background = "#25D366";
-  document.getElementById("btnCancelEdit").style.display = "none";
+  document.getElementById('formBeatTitle').innerHTML = "<i class='fa-solid fa-music'></i> Ajouter un nouvel instrumental";
+  document.getElementById('btnSaveBeat').innerHTML = "<i class='fa-solid fa-plus'></i> PUBLIER L'INSTRUMENTAL";
+  document.getElementById('btnSaveBeat').style.background = "var(--success)";
+  document.getElementById('btnCancelEdit').style.display = "none";
+  document.getElementById('editModeBadge').style.display = "none";
 }
 
-
-/* =========================================
-   GESTION PHOTOS ADMIN
-   ========================================= */
-
-function editPhoto(id) {
-  const p = photos.find(item => item.id === id);
-  if(!p) return;
-
-  document.getElementById("editPhotoId").value = p.id;
-  document.getElementById("photoTitle").value = p.title;
-  document.getElementById("photoUrl").value = p.url.startsWith("blob:") ? "" : p.url;
-
-  document.getElementById("btnSavePhoto").innerText = "MODIFIER LA PHOTO";
-  document.getElementById("btnSavePhoto").style.background = "#D97706";
-  document.getElementById("btnCancelPhotoEdit").style.display = "block";
-}
-
-function addPhoto() {
-  const editId = document.getElementById("editPhotoId").value;
-  const title = document.getElementById("photoTitle").value.trim();
-  const photoUrl = document.getElementById("photoUrl").value.trim();
-  const fileInput = document.getElementById("photoFile");
-
-  const existingPhoto = editId ? photos.find(p => p.id == editId) : null;
-
-  let finalUrl = photoUrl;
-  if(fileInput.files && fileInput.files[0]) {
-    finalUrl = URL.createObjectURL(fileInput.files[0]);
-  } else if(!finalUrl && existingPhoto) {
-    finalUrl = existingPhoto.url;
-  }
-
-  if(!finalUrl) {
-    alert("Veuillez fournir un fichier image ou un lien URL.");
-    return;
-  }
-
-  if(editId) {
-    const index = photos.findIndex(p => p.id == editId);
-    if(index !== -1) {
-      photos[index] = {
-        id: Number(editId),
-        title: title || "Photo RSB",
-        url: finalUrl
-      };
-    }
-  } else {
-    photos.push({
-      id: Date.now(),
-      title: title || "Photo RSB",
-      url: finalUrl
-    });
-  }
-
-  safeSetStorage("rsb_v6_photos", photos);
-  renderPhotos();
-  renderAdminLists();
-  cancelPhotoEdit();
-  alert(editId ? "📸 Photo modifiée avec succès !" : "📸 Photo ajoutée avec succès !");
-}
-
-function cancelPhotoEdit() {
-  document.getElementById("editPhotoId").value = "";
-  document.getElementById("photoTitle").value = "";
-  document.getElementById("photoUrl").value = "";
-  document.getElementById("photoFile").value = "";
-
-  document.getElementById("btnSavePhoto").innerText = "AJOUTER LA PHOTO";
-  document.getElementById("btnSavePhoto").style.background = "#25D366";
-  document.getElementById("btnCancelPhotoEdit").style.display = "none";
-}
-
-function delPhoto(id) {
-  if(confirm("Supprimer cette photo ?")) {
-    photos = photos.filter(p => p.id !== id);
-    safeSetStorage("rsb_v6_photos", photos);
-    renderPhotos();
-    renderAdminLists();
+function delBeat(id) {
+  if (confirm("Voulez-vous supprimer définitivement cet instrumental ?")) {
+    beats = beats.filter(b => b.id !== id);
+    localStorage.setItem('rsb_v5_beats', JSON.stringify(beats));
+    renderBeats();
+    renderAdmin();
   }
 }
 
-
-/* =========================================
-   GESTION VIDÉOS ADMIN
-   ========================================= */
-
-function editVideo(id) {
-  const v = videos.find(item => item.id === id);
-  if(!v) return;
-
-  document.getElementById("editVideoId").value = v.id;
-  document.getElementById("videoTitle").value = v.title;
-  document.getElementById("videoUrl").value = v.url.startsWith("blob:") ? "" : v.url;
-
-  document.getElementById("btnSaveVideo").innerText = "MODIFIER LA VIDÉO";
-  document.getElementById("btnSaveVideo").style.background = "#D97706";
-  document.getElementById("btnCancelVideoEdit").style.display = "block";
-}
-
-function addVideo() {
-  const editId = document.getElementById("editVideoId").value;
-  const title = document.getElementById("videoTitle").value.trim();
-  const videoUrl = document.getElementById("videoUrl").value.trim();
-  const fileInput = document.getElementById("videoFile");
-
-  const existingVideo = editId ? videos.find(v => v.id == editId) : null;
-
-  let finalUrl = videoUrl;
-  if(fileInput.files && fileInput.files[0]) {
-    finalUrl = URL.createObjectURL(fileInput.files[0]);
-  } else if(!finalUrl && existingVideo) {
-    finalUrl = existingVideo.url;
-  }
-
-  if(!finalUrl) {
-    alert("Veuillez fournir une vidéo (fichier ou URL).");
-    return;
-  }
-
-  if(editId) {
-    const index = videos.findIndex(v => v.id == editId);
-    if(index !== -1) {
-      videos[index] = {
-        id: Number(editId),
-        title: title || "Vidéo RSB",
-        url: finalUrl
-      };
-    }
-  } else {
-    videos.push({
-      id: Date.now(),
-      title: title || "Vidéo RSB",
-      url: finalUrl
-    });
-  }
-
-  safeSetStorage("rsb_v6_videos", videos);
-  renderVideos();
-  renderAdminLists();
-  cancelVideoEdit();
-  alert(editId ? "🎬 Vidéo modifiée avec succès !" : "🎬 Vidéo ajoutée avec succès !");
-}
-
-function cancelVideoEdit() {
-  document.getElementById("editVideoId").value = "";
-  document.getElementById("videoTitle").value = "";
-  document.getElementById("videoUrl").value = "";
-  document.getElementById("videoFile").value = "";
-
-  document.getElementById("btnSaveVideo").innerText = "AJOUTER LA VIDÉO";
-  document.getElementById("btnSaveVideo").style.background = "#25D366";
-  document.getElementById("btnCancelVideoEdit").style.display = "none";
-}
-
-function delVideo(id) {
-  if(confirm("Supprimer cette vidéo ?")) {
-    videos = videos.filter(v => v.id !== id);
-    safeSetStorage("rsb_v6_videos", videos);
-    renderVideos();
-    renderAdminLists();
-  }
-}
-
-
-/* =========================================
-   AFFICHAGE DE TOUTES LES LISTES ADMIN
-   ========================================= */
-
-function renderAdminLists() {
-  // Liste Beats
-  const bl = document.getElementById("adminBeatList");
-  bl.innerHTML = "";
+function renderAdmin() {
+  const l = document.getElementById('adminList');
+  document.getElementById('beatCount').innerText = beats.length;
+  l.innerHTML = '';
   beats.forEach(b => {
-    bl.innerHTML += `
+    l.innerHTML += `
       <div class="item">
-        <span>${escapeHtml(b.title)}</span>
+        <div style="display:flex; align-items:center; gap:10px">
+          <img src="${b.cover}" style="width:36px; height:36px; border-radius:6px; object-fit:cover">
+          <div>
+            <div style="font-weight:600; font-size:0.9rem">${b.title}</div>
+            <div style="font-size:0.75rem; color:var(--muted)">${b.price}$ - ${b.details}</div>
+          </div>
+        </div>
         <div class="item-btns">
           <button class="btn-edit" onclick="editBeat(${b.id})">Éditer</button>
           <button class="btn-del" onclick="delBeat(${b.id})">Supprimer</button>
         </div>
-      </div>
-    `;
-  });
-
-  // Liste Photos
-  const pl = document.getElementById("adminPhotoList");
-  pl.innerHTML = "";
-  photos.forEach(p => {
-    pl.innerHTML += `
-      <div class="item">
-        <span>${escapeHtml(p.title)}</span>
-        <div class="item-btns">
-          <button class="btn-edit" onclick="editPhoto(${p.id})">Éditer</button>
-          <button class="btn-del" onclick="delPhoto(${p.id})">Supprimer</button>
-        </div>
-      </div>
-    `;
-  });
-
-  // Liste Vidéos
-  const vl = document.getElementById("adminVideoList");
-  vl.innerHTML = "";
-  videos.forEach(v => {
-    vl.innerHTML += `
-      <div class="item">
-        <span>${escapeHtml(v.title)}</span>
-        <div class="item-btns">
-          <button class="btn-edit" onclick="editVideo(${v.id})">Éditer</button>
-          <button class="btn-del" onclick="delVideo(${v.id})">Supprimer</button>
-        </div>
-      </div>
-    `;
+      </div>`;
   });
 }
-
-
-/* =========================================
-   SYSTEME DE PAIEMENT
-   ========================================= */
-
-function openPayment(beatId) {
-  selectedBeat = beats.find(b => b.id === beatId);
-  if(!selectedBeat) return;
-
-  document.getElementById("paymentInfo").innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:15px">
-      <div>
-        <strong>${escapeHtml(selectedBeat.title)}</strong>
-        <div style="color:#A1A1AA;margin-top:5px">${escapeHtml(selectedBeat.details)}</div>
-      </div>
-      <div style="color:#7C3AED;font-size:1.4rem;font-weight:800">${Number(selectedBeat.price)}$</div>
-    </div>
-  `;
-
-  document.getElementById("paymentModal").style.display = "flex";
-}
-
-function closePayment() {
-  document.getElementById("paymentModal").style.display = "none";
-  selectedBeat = null;
-}
-
-function startPayment() {
-  if(!selectedBeat) return;
-
-  const name = document.getElementById("customerName").value.trim();
-  const email = document.getElementById("customerEmail").value.trim();
-  const phone = document.getElementById("customerPhone").value.trim();
-
-  if(!name || !email || !phone) {
-    alert("Veuillez remplir tous les champs.");
-    return;
-  }
-
-  const activeKey = cfg.flwKey;
-
-  if(!activeKey) {
-    alert("Veuillez configurer votre clé Flutterwave dans le Dashboard Admin.");
-    return;
-  }
-
-  const txRef = "RSB-" + Date.now();
-
-  FlutterwaveCheckout({
-    public_key: activeKey,
-    tx_ref: txRef,
-    amount: Number(selectedBeat.price),
-    currency: "USD",
-    customer: { email, phone_number: phone, name },
-    customizations: { title: "RSB PRODZEUR", description: "Achat: " + selectedBeat.title },
-
-    callback: function(payment) {
-      if(payment.status === "successful") {
-        alert("Paiement réussi !");
-        const msg = "Bonjour RSB Prodzeur,%0A%0AJe viens d'acheter : " + encodeURIComponent(selectedBeat.title) + "%0ARef: " + txRef;
-        closePayment();
-        window.open("https://wa.me/" + cfg.phone + "?text=" + msg, "_blank");
-      }
-    }
-  });
-}
-
-
-/* =========================================
-   INITIALISATION
-   ========================================= */
 
 window.onload = () => {
   renderBeats();
-  renderPhotos();
-  renderVideos();
   renderTarifs();
   updateUI();
 };
-
-window.addEventListener("click", function(event) {
-  if(event.target === document.getElementById("adminModal")) closeAdmin();
-  if(event.target === document.getElementById("paymentModal")) closePayment();
-});
-
 </script>
-
 </body>
-</html>
+</htmlx>
