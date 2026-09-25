@@ -969,7 +969,7 @@ const defaultPhotos = [
 ];
 
 const defaultVideos = [
-  { id: 1, title: "Session Mixage", url: "https://www.w3schools.com/html/mov_bbb.mp3" }
+  { id: 1, title: "Session Mixage", url: "https://www.w3schools.com/html/mov_bbb.mp4" }
 ];
 
 const tarifs = [
@@ -981,8 +981,18 @@ const tarifs = [
 
 
 /* =========================================
-   LOCAL STORAGE ET REINITIALISATION ACCÈS
+   LOCAL STORAGE SÉCURISÉ & REINITIALISATION
    ========================================= */
+
+function safeSetStorage(key, data) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    return true;
+  } catch(e) {
+    alert("⚠️ Les fichiers importés localement sont trop volumineux pour la mémoire du navigateur. Privilégiez des liens URL (https://...) pour économiser l'espace.");
+    return false;
+  }
+}
 
 function getBeats() {
   try {
@@ -1036,7 +1046,7 @@ let selectedBeat = null;
    ========================================= */
 
 function escapeHtml(value) {
-  return String(value)
+  return String(value || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -1049,7 +1059,7 @@ function escapeHtml(value) {
    LECTURE AUDIO
    ========================================= */
 
-function playPreview(url,id) {
+function playPreview(url, id) {
   if (curId === id && !audio.paused) {
     audio.pause();
     curId = null;
@@ -1237,7 +1247,7 @@ function changeAdminPassword() {
   }
 
   cfg.pass = newPass;
-  localStorage.setItem("rsb_v6_cfg", JSON.stringify(cfg));
+  safeSetStorage("rsb_v6_cfg", cfg);
   document.getElementById("newAdminPass").value = "";
   alert("🔑 Le mot de passe administrateur a été modifié avec succès !");
 }
@@ -1259,16 +1269,12 @@ function saveCfg() {
   const lf = document.getElementById("cfgLogo").files[0];
 
   if(lf) {
-    const r = new FileReader();
-    r.onload = e => {
-      cfg.logo = e.target.result;
-      localStorage.setItem("rsb_v6_cfg", JSON.stringify(cfg));
-      updateUI();
-      alert("✅ Paramètres enregistrés !");
-    };
-    r.readAsDataURL(lf);
+    cfg.logo = URL.createObjectURL(lf);
+    safeSetStorage("rsb_v6_cfg", cfg);
+    updateUI();
+    alert("✅ Paramètres enregistrés !");
   } else {
-    localStorage.setItem("rsb_v6_cfg", JSON.stringify(cfg));
+    safeSetStorage("rsb_v6_cfg", cfg);
     updateUI();
     alert("✅ Paramètres enregistrés !");
   }
@@ -1287,8 +1293,8 @@ function editBeat(id) {
   document.getElementById("bTitle").value = b.title;
   document.getElementById("bDetails").value = b.details;
   document.getElementById("bPrice").value = b.price;
-  document.getElementById("bCoverUrl").value = b.cover.startsWith("data:") ? "" : b.cover;
-  document.getElementById("bAudioUrl").value = b.audio.startsWith("data:") ? "" : b.audio;
+  document.getElementById("bCoverUrl").value = b.cover.startsWith("blob:") ? "" : b.cover;
+  document.getElementById("bAudioUrl").value = b.audio.startsWith("blob:") ? "" : b.audio;
 
   document.getElementById("btnSaveBeat").innerText = "MODIFIER LE BEAT";
   document.getElementById("btnSaveBeat").style.background = "#D97706";
@@ -1313,69 +1319,59 @@ function saveBeat() {
 
   const existingBeat = editId ? beats.find(b => b.id == editId) : null;
 
-  const processCover = callback => {
-    if(coverFileInput.files && coverFileInput.files[0]) {
-      const r = new FileReader();
-      r.onload = e => callback(e.target.result);
-      r.readAsDataURL(coverFileInput.files[0]);
-    } else {
-      callback(coverUrl || (existingBeat ? existingBeat.cover : ""));
+  let finalCover = coverUrl;
+  if(coverFileInput.files && coverFileInput.files[0]) {
+    finalCover = URL.createObjectURL(coverFileInput.files[0]);
+  } else if(!finalCover && existingBeat) {
+    finalCover = existingBeat.cover;
+  }
+
+  let finalAudio = audioUrl;
+  if(audioFileInput.files && audioFileInput.files[0]) {
+    finalAudio = URL.createObjectURL(audioFileInput.files[0]);
+  } else if(!finalAudio && existingBeat) {
+    finalAudio = existingBeat.audio;
+  }
+
+  if(!finalAudio) {
+    alert("Veuillez fournir un fichier MP3 ou un lien URL !");
+    return;
+  }
+
+  if(editId) {
+    const index = beats.findIndex(b => b.id == editId);
+    if(index !== -1) {
+      beats[index] = {
+        id: Number(editId),
+        title: t,
+        details: d || "N/A",
+        price: Number(p) || 20,
+        cover: finalCover || beats[index].cover,
+        audio: finalAudio
+      };
     }
-  };
-
-  const processAudio = callback => {
-    if(audioFileInput.files && audioFileInput.files[0]) {
-      const r = new FileReader();
-      r.onload = e => callback(e.target.result);
-      r.readAsDataURL(audioFileInput.files[0]);
-    } else {
-      callback(audioUrl || (existingBeat ? existingBeat.audio : ""));
-    }
-  };
-
-  processCover(finalCover => {
-    processAudio(finalAudio => {
-      if(!finalAudio) {
-        alert("Veuillez fournir un fichier ou lien MP3 !");
-        return;
-      }
-
-      if(editId) {
-        const index = beats.findIndex(b => b.id == editId);
-        if(index !== -1) {
-          beats[index] = {
-            id:Number(editId),
-            title:t,
-            details:d || "N/A",
-            price:Number(p) || 20,
-            cover:finalCover || beats[index].cover,
-            audio:finalAudio
-          };
-        }
-      } else {
-        beats.push({
-          id:Date.now(),
-          title:t,
-          details:d || "N/A",
-          price:Number(p) || 20,
-          cover:finalCover || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400",
-          audio:finalAudio
-        });
-      }
-
-      localStorage.setItem("rsb_v6_beats", JSON.stringify(beats));
-      renderBeats();
-      renderAdminLists();
-      cancelEdit();
-      alert("✅ Instrumental mis à jour !");
+  } else {
+    beats.push({
+      id: Date.now(),
+      title: t,
+      details: d || "N/A",
+      price: Number(p) || 20,
+      cover: finalCover || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400",
+      audio: finalAudio
     });
-  });
+  }
+
+  safeSetStorage("rsb_v6_beats", beats);
+  renderBeats();
+  renderAdminLists();
+  cancelEdit();
+  alert("✅ Instrumental sauvegardé avec succès !");
 }
 
 function delBeat(id) {
   if(confirm("Supprimer cet instrumental ?")) {
     beats = beats.filter(b => b.id !== id);
-    localStorage.setItem("rsb_v6_beats", JSON.stringify(beats));
+    safeSetStorage("rsb_v6_beats", beats);
     renderBeats();
     renderAdminLists();
   }
@@ -1407,7 +1403,7 @@ function editPhoto(id) {
 
   document.getElementById("editPhotoId").value = p.id;
   document.getElementById("photoTitle").value = p.title;
-  document.getElementById("photoUrl").value = p.url.startsWith("data:") ? "" : p.url;
+  document.getElementById("photoUrl").value = p.url.startsWith("blob:") ? "" : p.url;
 
   document.getElementById("btnSavePhoto").innerText = "MODIFIER LA PHOTO";
   document.getElementById("btnSavePhoto").style.background = "#D97706";
@@ -1422,45 +1418,40 @@ function addPhoto() {
 
   const existingPhoto = editId ? photos.find(p => p.id == editId) : null;
 
-  const save = url => {
-    const finalUrl = url || (existingPhoto ? existingPhoto.url : "");
+  let finalUrl = photoUrl;
+  if(fileInput.files && fileInput.files[0]) {
+    finalUrl = URL.createObjectURL(fileInput.files[0]);
+  } else if(!finalUrl && existingPhoto) {
+    finalUrl = existingPhoto.url;
+  }
 
-    if(!finalUrl) {
-      alert("Veuillez fournir un fichier image ou un lien URL.");
-      return;
-    }
+  if(!finalUrl) {
+    alert("Veuillez fournir un fichier image ou un lien URL.");
+    return;
+  }
 
-    if(editId) {
-      const index = photos.findIndex(p => p.id == editId);
-      if(index !== -1) {
-        photos[index] = {
-          id: Number(editId),
-          title: title || "Photo RSB",
-          url: finalUrl
-        };
-      }
-    } else {
-      photos.push({
-        id: Date.now(),
+  if(editId) {
+    const index = photos.findIndex(p => p.id == editId);
+    if(index !== -1) {
+      photos[index] = {
+        id: Number(editId),
         title: title || "Photo RSB",
         url: finalUrl
-      });
+      };
     }
-
-    localStorage.setItem("rsb_v6_photos", JSON.stringify(photos));
-    renderPhotos();
-    renderAdminLists();
-    cancelPhotoEdit();
-    alert(editId ? "📸 Photo modifiée avec succès !" : "📸 Photo ajoutée avec succès !");
-  };
-
-  if(fileInput.files && fileInput.files[0]) {
-    const r = new FileReader();
-    r.onload = e => save(e.target.result);
-    r.readAsDataURL(fileInput.files[0]);
   } else {
-    save(photoUrl);
+    photos.push({
+      id: Date.now(),
+      title: title || "Photo RSB",
+      url: finalUrl
+    });
   }
+
+  safeSetStorage("rsb_v6_photos", photos);
+  renderPhotos();
+  renderAdminLists();
+  cancelPhotoEdit();
+  alert(editId ? "📸 Photo modifiée avec succès !" : "📸 Photo ajoutée avec succès !");
 }
 
 function cancelPhotoEdit() {
@@ -1477,7 +1468,7 @@ function cancelPhotoEdit() {
 function delPhoto(id) {
   if(confirm("Supprimer cette photo ?")) {
     photos = photos.filter(p => p.id !== id);
-    localStorage.setItem("rsb_v6_photos", JSON.stringify(photos));
+    safeSetStorage("rsb_v6_photos", photos);
     renderPhotos();
     renderAdminLists();
   }
@@ -1494,7 +1485,7 @@ function editVideo(id) {
 
   document.getElementById("editVideoId").value = v.id;
   document.getElementById("videoTitle").value = v.title;
-  document.getElementById("videoUrl").value = v.url.startsWith("data:") ? "" : v.url;
+  document.getElementById("videoUrl").value = v.url.startsWith("blob:") ? "" : v.url;
 
   document.getElementById("btnSaveVideo").innerText = "MODIFIER LA VIDÉO";
   document.getElementById("btnSaveVideo").style.background = "#D97706";
@@ -1509,45 +1500,40 @@ function addVideo() {
 
   const existingVideo = editId ? videos.find(v => v.id == editId) : null;
 
-  const save = url => {
-    const finalUrl = url || (existingVideo ? existingVideo.url : "");
+  let finalUrl = videoUrl;
+  if(fileInput.files && fileInput.files[0]) {
+    finalUrl = URL.createObjectURL(fileInput.files[0]);
+  } else if(!finalUrl && existingVideo) {
+    finalUrl = existingVideo.url;
+  }
 
-    if(!finalUrl) {
-      alert("Veuillez fournir une vidéo (fichier ou URL).");
-      return;
-    }
+  if(!finalUrl) {
+    alert("Veuillez fournir une vidéo (fichier ou URL).");
+    return;
+  }
 
-    if(editId) {
-      const index = videos.findIndex(v => v.id == editId);
-      if(index !== -1) {
-        videos[index] = {
-          id: Number(editId),
-          title: title || "Vidéo RSB",
-          url: finalUrl
-        };
-      }
-    } else {
-      videos.push({
-        id: Date.now(),
+  if(editId) {
+    const index = videos.findIndex(v => v.id == editId);
+    if(index !== -1) {
+      videos[index] = {
+        id: Number(editId),
         title: title || "Vidéo RSB",
         url: finalUrl
-      });
+      };
     }
-
-    localStorage.setItem("rsb_v6_videos", JSON.stringify(videos));
-    renderVideos();
-    renderAdminLists();
-    cancelVideoEdit();
-    alert(editId ? "🎬 Vidéo modifiée avec succès !" : "🎬 Vidéo ajoutée avec succès !");
-  };
-
-  if(fileInput.files && fileInput.files[0]) {
-    const r = new FileReader();
-    r.onload = e => save(e.target.result);
-    r.readAsDataURL(fileInput.files[0]);
   } else {
-    save(videoUrl);
+    videos.push({
+      id: Date.now(),
+      title: title || "Vidéo RSB",
+      url: finalUrl
+    });
   }
+
+  safeSetStorage("rsb_v6_videos", videos);
+  renderVideos();
+  renderAdminLists();
+  cancelVideoEdit();
+  alert(editId ? "🎬 Vidéo modifiée avec succès !" : "🎬 Vidéo ajoutée avec succès !");
 }
 
 function cancelVideoEdit() {
@@ -1564,7 +1550,7 @@ function cancelVideoEdit() {
 function delVideo(id) {
   if(confirm("Supprimer cette vidéo ?")) {
     videos = videos.filter(v => v.id !== id);
-    localStorage.setItem("rsb_v6_videos", JSON.stringify(videos));
+    safeSetStorage("rsb_v6_videos", videos);
     renderVideos();
     renderAdminLists();
   }
